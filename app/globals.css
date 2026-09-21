@@ -2086,6 +2086,57 @@ body:has(.hero-home) .site-header {
   background: #ffffff;
 }
 
+.alumni-avatar > span {
+  display: grid;
+  height: 100%;
+  place-items: center;
+  background: #ececec;
+  color: #625b5b;
+  font-size: 0.9rem;
+}
+
+.archive-intro {
+  max-width: 48rem;
+  margin: 0 0 1.5rem;
+  color: #625b5b;
+  line-height: 1.6;
+}
+
+.archive-intro a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.archive-group-photo {
+  display: block;
+  width: min(100%, 900px);
+  height: auto;
+  margin: 0 auto 2rem;
+  border-radius: 0.5rem;
+}
+
+.alumni-directory:has(.archive-bio) {
+  align-items: start;
+}
+
+.archive-bio {
+  grid-column: 2;
+  padding-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.archive-bio summary {
+  width: fit-content;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.archive-bio summary:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
 .events-section {
   background: white;
 }

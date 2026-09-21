@@ -2,28 +2,26 @@
 
 import Image from 'next/image';
 import { useState, type CSSProperties } from 'react';
+import type {
+  ArchivedMember,
+  LeadershipArchive,
+} from '@/data/leadership-archive';
 
 type LeadershipGroup = {
   team: string;
   members: string[];
 };
 
-type AlumniMember = {
-  name: string;
-  role: string;
-  image: string;
-};
-
 export function TeamAccordion({
   leadershipTeams,
   alumniBoard,
+  archives,
 }: {
   leadershipTeams: LeadershipGroup[];
-  alumniBoard: AlumniMember[];
+  alumniBoard: ArchivedMember[];
+  archives: LeadershipArchive[];
 }) {
-  const [openItem, setOpenItem] = useState<'current' | 'alumni' | null>(
-    'current',
-  );
+  const [openItem, setOpenItem] = useState<string | null>('current');
 
   const currentMembers = leadershipTeams.flatMap((group) =>
     group.members.map((name) => ({
@@ -33,7 +31,7 @@ export function TeamAccordion({
     })),
   );
 
-  const toggle = (item: 'current' | 'alumni') => {
+  const toggle = (item: string) => {
     setOpenItem((current) => (current === item ? null : item));
   };
 
@@ -71,28 +69,80 @@ export function TeamAccordion({
         open={openItem === 'alumni'}
         onToggle={() => toggle('alumni')}
       >
-        <div className="alumni-directory">
-          {alumniBoard.map((person, index) => (
-            <div
-              className="alumni-directory-row"
-              key={person.name}
-              style={{ '--row-index': index } as CSSProperties}
-            >
-              <div className="alumni-avatar">
-                <Image
-                  src={person.image}
-                  alt=""
-                  fill
-                  sizes="56px"
-                  className="cover-image"
-                />
-              </div>
-              <h3>{person.name}</h3>
-              <p>{person.role}</p>
-            </div>
-          ))}
-        </div>
+        <MemberDirectory members={alumniBoard} />
       </AccordionItem>
+
+      {archives.map((archive) => (
+        <AccordionItem
+          key={archive.year}
+          id={archive.year}
+          title={`${archive.year} Leadership`}
+          open={openItem === archive.year}
+          onToggle={() => toggle(archive.year)}
+        >
+          <p className="archive-intro">
+            From our {archive.year} website archive.
+            {archive.members.some((member) => member.bio) &&
+              ' Biographies reflect the time they were written.'}{' '}
+            <a href={archive.source} target="_blank" rel="noreferrer">
+              View the original roster
+            </a>
+          </p>
+          {archive.groupPhoto && (
+            <Image
+              {...archive.groupPhoto}
+              className="archive-group-photo"
+              sizes="(max-width: 760px) 100vw, 900px"
+            />
+          )}
+          <MemberDirectory members={archive.members} year={archive.year} />
+        </AccordionItem>
+      ))}
+    </div>
+  );
+}
+
+function MemberDirectory({
+  members,
+  year,
+}: {
+  members: ArchivedMember[];
+  year?: string;
+}) {
+  return (
+    <div className="alumni-directory">
+      {members.map((person, index) => (
+        <article
+          className="alumni-directory-row"
+          key={person.name}
+          style={{ '--row-index': index } as CSSProperties}
+        >
+          <div className="alumni-avatar" aria-hidden="true">
+            {person.image ? (
+              <Image
+                src={person.image}
+                alt=""
+                fill
+                sizes="56px"
+                className="cover-image"
+              />
+            ) : (
+              <span>{getInitials(person.name)}</span>
+            )}
+          </div>
+          <h3>{person.name}</h3>
+          <p>{person.role}</p>
+          {person.bio && (
+            <details className="archive-bio">
+              <summary>
+                Read {year} bio
+                <span className="sr-only"> for {person.name}</span>
+              </summary>
+              <p>{person.bio}</p>
+            </details>
+          )}
+        </article>
+      ))}
     </div>
   );
 }
@@ -129,6 +179,7 @@ function AccordionItem({
           type="button"
           aria-expanded={open}
           aria-controls={panelId}
+          id={`team-trigger-${id}`}
           onClick={onToggle}
         >
           <span className="team-accordion-title">{title}</span>
@@ -138,9 +189,15 @@ function AccordionItem({
           </span>
         </button>
       </h2>
-      <div className="team-accordion-panel" id={panelId} aria-hidden={!open}>
+      <section
+        className="team-accordion-panel"
+        id={panelId}
+        aria-labelledby={`team-trigger-${id}`}
+        aria-hidden={!open}
+        inert={!open}
+      >
         <div className="team-accordion-panel-inner">{children}</div>
-      </div>
+      </section>
     </section>
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { PageHero } from '@/components/page-elements';
 import { TeamAccordion } from '@/components/team-accordion';
+import { leadershipArchive } from '@/data/leadership-archive';
 
 export const metadata: Metadata = {
   title: 'Board',
@@ -95,6 +96,7 @@ export default function BoardPage() {
           <TeamAccordion
             leadershipTeams={leadershipTeams}
             alumniBoard={alumniBoard}
+            archives={leadershipArchive}
           />
         </div>
       </section>
