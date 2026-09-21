@@ -1,8 +1,18 @@
+export type MemberLinkIcon =
+  | 'github'
+  | 'linkedin'
+  | 'instagram'
+  | 'x'
+  | 'website'
+  | 'link';
+
 export type ArchivedMember = {
   name: string;
   role: string;
   image?: string;
   bio?: string;
+  email?: string;
+  links?: { label: string; href: string; icon?: MemberLinkIcon }[];
 };
 
 export type LeadershipArchive = {

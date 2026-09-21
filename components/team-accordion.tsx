@@ -1,7 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, type CSSProperties } from 'react';
+import { useId, useRef, useState, type CSSProperties } from 'react';
+import { MemberIcon } from '@/components/member-icon';
 import type {
   ArchivedMember,
   LeadershipArchive,
@@ -9,7 +10,7 @@ import type {
 
 type LeadershipGroup = {
   team: string;
-  members: string[];
+  members: (string | Omit<ArchivedMember, 'role'>)[];
 };
 
 export function TeamAccordion({
@@ -24,9 +25,9 @@ export function TeamAccordion({
   const [openItem, setOpenItem] = useState<string | null>('current');
 
   const currentMembers = leadershipTeams.flatMap((group) =>
-    group.members.map((name) => ({
-      name,
-      title:
+    group.members.map((member) => ({
+      ...(typeof member === 'string' ? { name: member } : member),
+      role:
         group.team === 'Presidents' ? 'President' : 'Director of ' + group.team,
     })),
   );
@@ -43,24 +44,7 @@ export function TeamAccordion({
         open={openItem === 'current'}
         onToggle={() => toggle('current')}
       >
-        <div className="current-directory">
-          {currentMembers.map((person, index) => (
-            <article
-              className="current-directory-row"
-              key={person.name}
-              style={{ '--row-index': index } as CSSProperties}
-            >
-              <figure
-                className="current-avatar"
-                aria-label={'Placeholder headshot for ' + person.name}
-              >
-                <span aria-hidden="true">{getInitials(person.name)}</span>
-              </figure>
-              <h3>{person.name}</h3>
-              <p>{person.title}</p>
-            </article>
-          ))}
-        </div>
+        <MemberDirectory members={currentMembers} current />
       </AccordionItem>
 
       <AccordionItem
@@ -80,14 +64,6 @@ export function TeamAccordion({
           open={openItem === archive.year}
           onToggle={() => toggle(archive.year)}
         >
-          <p className="archive-intro">
-            From our {archive.year} website archive.
-            {archive.members.some((member) => member.bio) &&
-              ' Biographies reflect the time they were written.'}{' '}
-            <a href={archive.source} target="_blank" rel="noreferrer">
-              View the original roster
-            </a>
-          </p>
           {archive.groupPhoto && (
             <Image
               {...archive.groupPhoto}
@@ -95,7 +71,7 @@ export function TeamAccordion({
               sizes="(max-width: 760px) 100vw, 900px"
             />
           )}
-          <MemberDirectory members={archive.members} year={archive.year} />
+          <MemberDirectory members={archive.members} />
         </AccordionItem>
       ))}
     </div>
@@ -104,46 +80,117 @@ export function TeamAccordion({
 
 function MemberDirectory({
   members,
-  year,
+  current = false,
 }: {
   members: ArchivedMember[];
-  year?: string;
+  current?: boolean;
 }) {
+  const directoryClass = current ? 'current-directory' : 'alumni-directory';
+
   return (
-    <div className="alumni-directory">
+    <div className={directoryClass}>
       {members.map((person, index) => (
         <article
-          className="alumni-directory-row"
+          className={`${directoryClass}-row`}
           key={person.name}
           style={{ '--row-index': index } as CSSProperties}
         >
-          <div className="alumni-avatar" aria-hidden="true">
+          <div
+            className={current ? 'current-avatar' : 'alumni-avatar'}
+            aria-hidden="true"
+          >
             {person.image ? (
               <Image
                 src={person.image}
                 alt=""
                 fill
-                sizes="56px"
+                sizes={current ? '76px' : '44px'}
                 className="cover-image"
               />
             ) : (
               <span>{getInitials(person.name)}</span>
             )}
           </div>
-          <h3>{person.name}</h3>
-          <p>{person.role}</p>
-          {person.bio && (
-            <details className="archive-bio">
-              <summary>
-                Read {year} bio
-                <span className="sr-only"> for {person.name}</span>
-              </summary>
-              <p>{person.bio}</p>
-            </details>
-          )}
+          <div className="member-details">
+            <div className="member-copy">
+              <h3>{person.name}</h3>
+              <p>{person.role}</p>
+            </div>
+            <MemberActions person={person} />
+          </div>
         </article>
       ))}
     </div>
+  );
+}
+
+function MemberActions({ person }: { person: ArchivedMember }) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const titleId = useId();
+
+  if (!person.bio && !person.email && !person.links?.length) return null;
+
+  return (
+    <>
+      <div className="member-actions">
+        {person.bio && (
+          <button
+            className="member-action"
+            type="button"
+            aria-label={`Read bio for ${person.name}`}
+            aria-haspopup="dialog"
+            title="Read bio"
+            onClick={() => dialogRef.current?.showModal()}
+          >
+            <MemberIcon name="bio" />
+          </button>
+        )}
+        {person.email && (
+          <a
+            className="member-action"
+            href={`mailto:${person.email}`}
+            aria-label={`Email ${person.name}`}
+            title={`Email ${person.name}`}
+          >
+            <MemberIcon name="email" />
+          </a>
+        )}
+        {person.links?.map((link) => (
+          <a
+            className="member-action"
+            key={link.href}
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${person.name}: ${link.label}`}
+            title={link.label}
+          >
+            <MemberIcon name={link.icon ?? 'link'} />
+          </a>
+        ))}
+      </div>
+      {person.bio && (
+        <dialog
+          className="member-dialog"
+          ref={dialogRef}
+          aria-labelledby={titleId}
+          closedby="any"
+        >
+          <button
+            className="member-action member-dialog-close"
+            type="button"
+            aria-label="Close bio"
+            title="Close bio"
+            onClick={() => dialogRef.current?.close()}
+          >
+            <MemberIcon name="close" />
+          </button>
+          <h2 id={titleId}>{person.name}</h2>
+          <p className="member-dialog-role">{person.role}</p>
+          <p className="member-dialog-bio">{person.bio}</p>
+        </dialog>
+      )}
+    </>
   );
 }
 

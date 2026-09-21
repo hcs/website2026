@@ -57,6 +57,7 @@
 html {
   overscroll-behavior-y: none;
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -1993,8 +1994,9 @@ body:has(.hero-home) .site-header {
 .current-directory-row {
   display: grid;
   grid-template-columns: 5.75rem minmax(0, 1fr);
-  grid-template-rows: auto auto;
-  align-content: center;
+  align-content: start;
+  align-items: start;
+  padding-block: 1.25rem;
   min-height: 8.25rem;
   border-top: 1px solid var(--line);
   opacity: 0;
@@ -2013,7 +2015,6 @@ body:has(.hero-home) .site-header {
 
 .current-avatar {
   position: relative;
-  grid-row: 1 / span 2;
   display: grid;
   width: 4.75rem;
   aspect-ratio: 1;
@@ -2055,8 +2056,7 @@ body:has(.hero-home) .site-header {
   font-size: 1.2rem;
 }
 
-.current-directory-row p,
-.alumni-directory-row p {
+.member-copy > p {
   margin: 0.4rem 0 0;
   color: #625b5b;
   line-height: 1.45;
@@ -2064,9 +2064,11 @@ body:has(.hero-home) .site-header {
 
 .alumni-directory-row {
   display: grid;
-  grid-template-columns: 3.5rem minmax(0, 1fr);
-  grid-template-rows: auto auto;
-  align-content: center;
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  column-gap: 1rem;
+  align-content: start;
+  align-items: start;
+  padding-block: 1.25rem;
   min-height: 6.2rem;
   border-top: 1px solid var(--line);
   opacity: 0;
@@ -2078,7 +2080,6 @@ body:has(.hero-home) .site-header {
 
 .alumni-avatar {
   position: relative;
-  grid-row: 1 / span 2;
   width: 2.75rem;
   aspect-ratio: 1;
   overflow: hidden;
@@ -2095,18 +2096,6 @@ body:has(.hero-home) .site-header {
   font-size: 0.9rem;
 }
 
-.archive-intro {
-  max-width: 48rem;
-  margin: 0 0 1.5rem;
-  color: #625b5b;
-  line-height: 1.6;
-}
-
-.archive-intro a {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-
 .archive-group-photo {
   display: block;
   width: min(100%, 900px);
@@ -2115,26 +2104,109 @@ body:has(.hero-home) .site-header {
   border-radius: 0.5rem;
 }
 
-.alumni-directory:has(.archive-bio) {
-  align-items: start;
+.member-details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
-.archive-bio {
-  grid-column: 2;
-  padding-bottom: 1rem;
-  font-size: 0.9rem;
+.member-copy {
+  flex: 1 1 10rem;
+  min-width: 0;
 }
 
-.archive-bio summary {
-  width: fit-content;
-  margin-top: 0.5rem;
+.member-actions {
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  max-width: 100%;
+}
+
+.member-action {
+  display: inline-flex;
+  flex: 0 0 2.5rem;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #625b5b;
   cursor: pointer;
-  color: var(--ink);
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
 }
 
-.archive-bio summary:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 4px;
+.member-action svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.member-action:hover,
+.member-action:focus-visible {
+  background: #f5eded;
+  color: var(--crimson);
+}
+
+.member-action:focus-visible {
+  outline: 2px solid var(--crimson);
+  outline-offset: 2px;
+}
+
+body:has(.member-dialog[open]) {
+  overflow: hidden;
+}
+
+.member-dialog {
+  position: fixed;
+  inset: 0;
+  width: min(36rem, calc(100% - 2rem));
+  max-height: calc(100% - 2rem);
+  margin: auto;
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: #ffffff;
+  color: var(--ink);
+  box-shadow: 0 1.5rem 5rem #0003;
+}
+
+.member-dialog::backdrop {
+  background: #19151580;
+  backdrop-filter: blur(4px);
+}
+
+.member-dialog-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+}
+
+.member-dialog h2 {
+  padding-right: 2rem;
+  font-family: var(--font-instrument-serif), Georgia, 'Times New Roman', serif;
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+.member-dialog-role {
+  margin: 0.5rem 0 0;
+  color: #625b5b;
+  line-height: 1.45;
+}
+
+.member-dialog-bio {
+  margin: 1.5rem 0 0;
+  line-height: 1.7;
 }
 
 .events-section {
