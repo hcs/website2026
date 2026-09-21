@@ -234,6 +234,13 @@ body:has(.hero-home) .site-header {
   }
 }
 
+.photo-letter-filters {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
 .photo-monogram {
   position: absolute;
   inset: 50% 1vw auto;
@@ -297,8 +304,9 @@ body:has(.hero-home) .site-header {
   background-size: auto 124%;
   background-clip: text;
   -webkit-background-clip: text;
-  filter: saturate(0.94) contrast(1.06) brightness(0.96)
-    drop-shadow(0 0 1.2px rgb(255 255 255 / 0.55));
+  filter: url('#photo-letter-glass') saturate(0.94) contrast(1.06)
+    brightness(0.96) drop-shadow(0 -1px 0.6px rgb(255 255 255 / 0.65))
+    drop-shadow(0 2px 1px rgb(7 11 13 / 0.5));
   animation:
     photo-letter-drift 14s ease-in-out infinite alternate,
     photo-letter-cycle 21s linear var(--photo-delay) infinite both;
@@ -319,14 +327,16 @@ body:has(.hero-home) .site-header {
   from {
     background-position: 50% 42%;
     background-size: auto 124%;
-    filter: saturate(0.92) contrast(1.06) brightness(0.94)
-      drop-shadow(0 0 1.2px rgb(255 255 255 / 0.55));
+    filter: url('#photo-letter-glass') saturate(0.92) contrast(1.06)
+      brightness(0.94) drop-shadow(0 -1px 0.6px rgb(255 255 255 / 0.65))
+      drop-shadow(0 2px 1px rgb(7 11 13 / 0.5));
   }
   to {
     background-position: 50% 58%;
     background-size: auto 132%;
-    filter: saturate(1.02) contrast(1.08) brightness(1.02)
-      drop-shadow(0 0 1.2px rgb(255 255 255 / 0.55));
+    filter: url('#photo-letter-glass') saturate(1.02) contrast(1.08)
+      brightness(1.02) drop-shadow(0 -1px 0.6px rgb(255 255 255 / 0.65))
+      drop-shadow(0 2px 1px rgb(7 11 13 / 0.5));
   }
 }
 

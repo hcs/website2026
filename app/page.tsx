@@ -154,6 +154,35 @@ export default function Home() {
   return (
     <>
       <section className="hero hero-home">
+        <svg
+          className="photo-letter-filters"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <defs>
+            <filter
+              id="photo-letter-glass"
+              x="-10%"
+              y="-10%"
+              width="120%"
+              height="120%"
+              colorInterpolationFilters="sRGB"
+            >
+              {/* Extend each photo's edge colors into a softly lit glass rim. */}
+              <feMorphology in="SourceGraphic" operator="dilate" radius="4" />
+              <feGaussianBlur stdDeviation="0.6" />
+              <feComponentTransfer>
+                <feFuncR type="linear" slope="0.8" intercept="0.24" />
+                <feFuncG type="linear" slope="0.8" intercept="0.24" />
+                <feFuncB type="linear" slope="0.8" intercept="0.24" />
+              </feComponentTransfer>
+              <feMerge>
+                <feMergeNode />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+        </svg>
         <div className="photo-monogram" aria-hidden="true">
           {photoLetters.map((frame, index) => (
             <div
