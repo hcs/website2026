@@ -41,7 +41,7 @@ export function TeamAccordion({
     <div className="team-accordion">
       <AccordionItem
         id="current"
-        title="2026–2027 Leadership"
+        title="2026 Leadership"
         open={openItem === 'current'}
         onToggle={() => toggle('current')}
       >
@@ -67,7 +67,7 @@ export function TeamAccordion({
 
       <AccordionItem
         id="alumni"
-        title="2023–2024 Leadership"
+        title="2023 Leadership"
         open={openItem === 'alumni'}
         onToggle={() => toggle('alumni')}
       >
