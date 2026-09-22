@@ -53,7 +53,20 @@ export function MobileNav({ items }: { items: NavItem[] }) {
             onClick={() => setIsOpen(false)}
           >
             {item.label}
-            <span aria-hidden="true">↗</span>
+            <svg
+              className="mobile-nav-link-arrow"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M5 12h14m-6-6 6 6-6 6"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </Link>
         ))}
       </nav>
