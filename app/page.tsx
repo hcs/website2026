@@ -5,15 +5,27 @@ import type { CSSProperties } from 'react';
 const photoLetters = [
   {
     letter: 'H',
-    photos: ['/community.jpg', '/about.jpg', '/events/4.jpg'],
+    photos: [
+      '/hero-letters/contact.webp',
+      '/hero-letters/about.webp',
+      '/hero-letters/event-4.webp',
+    ],
   },
   {
     letter: 'C',
-    photos: ['/board/all.png', '/events/2.jpg', '/initiatives.jpg'],
+    photos: [
+      '/hero-letters/board.webp',
+      '/hero-letters/event-2.webp',
+      '/hero-letters/initiatives.webp',
+    ],
   },
   {
     letter: 'S',
-    photos: ['/events/3.jpg', '/events/5.jpeg', '/academics.jpeg'],
+    photos: [
+      '/hero-letters/event-3.webp',
+      '/hero-letters/event-5.webp',
+      '/hero-letters/academics.webp',
+    ],
   },
 ];
 
@@ -188,6 +200,7 @@ export default function Home() {
             <div
               className={`photo-letter-frame photo-letter-${frame.letter.toLowerCase()}`}
               style={{ '--letter-index': index } as CSSProperties}
+              data-letter={frame.letter}
               key={frame.letter}
             >
               {frame.photos.map((photo, photoIndex) => (
