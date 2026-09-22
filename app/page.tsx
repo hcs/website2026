@@ -54,7 +54,8 @@ const explore = [
 
 const eventPhotos = [
   {
-    src: '/events/1.jpg',
+    id: 'A016',
+    src: '/events/a016.webp',
     alt: 'Students speaking with panelists at the HCS research panel',
     eyebrow: 'Research',
     title: 'Research Panel',
@@ -62,7 +63,16 @@ const eventPhotos = [
       'Students and researchers share their paths into computer science research.',
   },
   {
-    src: '/events/2.jpg',
+    id: 'A006',
+    src: '/events/a006.webp',
+    alt: 'HCS members gathering for a taco social',
+    eyebrow: 'Community',
+    title: 'Taco Social',
+    description: 'HCS members gather for food and conversation.',
+  },
+  {
+    id: 'A017',
+    src: '/events/a017.webp',
     alt: 'A speaker leading an HCS workshop on knowledge base chunking',
     eyebrow: 'Technical workshop',
     title: 'Building Knowledge Bases',
@@ -70,7 +80,24 @@ const eventPhotos = [
       'A hands-on session on retrieval, chunking, and useful knowledge systems.',
   },
   {
-    src: '/events/3.jpg',
+    id: 'A014',
+    src: '/events/a014.webp',
+    alt: 'Students building with wooden blocks around a table',
+    eyebrow: 'Community',
+    title: 'Building Together',
+    description: 'HCS members gather around a tabletop building game.',
+  },
+  {
+    id: 'A010',
+    src: '/events/a010.webp',
+    alt: 'Students posing in front of an OCaml Bee presentation',
+    eyebrow: 'Programming',
+    title: 'OCaml Bee',
+    description: 'Students pose together at the HCS OCaml Bee.',
+  },
+  {
+    id: 'A018',
+    src: '/events/a018.webp',
     alt: 'A Robust Intelligence speaker presenting on securing AI systems',
     eyebrow: 'Industry talk',
     title: 'Securing the AI Transformation',
@@ -78,19 +105,53 @@ const eventPhotos = [
       'A conversation with Robust Intelligence about building safer AI systems.',
   },
   {
-    src: '/events/4.jpg',
+    id: 'A007',
+    src: '/events/a007.webp',
+    alt: 'Students gathered at an HCS CS51 study break',
+    eyebrow: 'Study break',
+    title: 'CS51 Study Break',
+    description: 'Students take a break from CS51 with the HCS community.',
+  },
+  {
+    id: 'A020',
+    src: '/events/a020.webp',
+    alt: 'An HCS speaker introducing product management recruiting',
+    eyebrow: 'Career workshop',
+    title: 'Intro to PM Recruiting',
+    description: 'Practical recruiting advice from HCS, WiCS, and Product Lab.',
+  },
+  {
+    id: 'A005',
+    src: '/events/a005.webp',
+    alt: 'Students gathered in a classroom for an HCS event',
+    eyebrow: 'Community',
+    title: 'HCS Gathering',
+    description: 'Students meet in a classroom for an HCS community event.',
+  },
+  {
+    id: 'A022',
+    src: '/events/a022.webp',
+    alt: 'OCaml Bee participants gathered for a group photo',
+    eyebrow: 'Programming',
+    title: 'OCaml Bee Group Photo',
+    description: 'Participants gather in front of the OCaml Bee presentation.',
+  },
+  {
+    id: 'A015',
+    src: '/events/a015.webp',
+    alt: 'HCS members enjoying food together at a gathering',
+    eyebrow: 'Community',
+    title: 'Sharing a Meal',
+    description: 'Members enjoy food and conversation at an HCS gathering.',
+  },
+  {
+    id: 'A019',
+    src: '/events/a019.webp',
     alt: 'Students and speakers talking after the HCS research panel',
     eyebrow: 'Community',
     title: 'Research Panel Social',
     description:
       'Students continue the conversation with speakers after the panel.',
-  },
-  {
-    src: '/events/5.jpeg',
-    alt: 'An HCS speaker presenting an introduction to product management recruiting',
-    eyebrow: 'Career workshop',
-    title: 'Intro to PM Recruiting',
-    description: 'Practical recruiting advice from HCS, WiCS, and Product Lab.',
   },
 ];
 
@@ -287,12 +348,15 @@ export default function Home() {
         </div>
         <div
           className="photo-strip"
-          aria-label="Recent HCS event photos. Animation pauses on hover or focus."
+          aria-label="Recent HCS event photos. Swipe to browse on mobile."
         >
-          <div className="photo-track">
+          <div
+            className="photo-track"
+            style={{ animationDuration: `${eventPhotos.length * 7}s` }}
+          >
             <div className="photo-sequence">
               {eventPhotos.map((photo) => (
-                <EventPhoto photo={photo} key={photo.src} />
+                <EventPhoto photo={photo} key={photo.id} />
               ))}
             </div>
             <div className="photo-sequence" aria-hidden="true">
@@ -300,7 +364,7 @@ export default function Home() {
                 <EventPhoto
                   photo={photo}
                   duplicate
-                  key={`duplicate-${photo.src}`}
+                  key={`duplicate-${photo.id}`}
                 />
               ))}
             </div>

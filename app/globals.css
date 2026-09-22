@@ -633,8 +633,7 @@ body:has(.hero-home) .site-header {
     rgb(0 0 0 / 0.08) 68%,
     transparent
   );
-  opacity: 0.34;
-  transition: opacity 260ms ease;
+  opacity: 1;
 }
 
 .event-caption {
@@ -643,11 +642,7 @@ body:has(.hero-home) .site-header {
   z-index: 2;
   padding: 1.35rem;
   color: white;
-  opacity: 0;
-  transform: translateY(0.8rem);
-  transition:
-    opacity 260ms ease,
-    transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  opacity: 1;
 }
 
 .event-caption p {
@@ -680,17 +675,6 @@ body:has(.hero-home) .site-header {
 .photo-tile:hover img,
 .photo-tile:focus-visible img {
   transform: scale(1.035);
-}
-
-.photo-tile:hover::after,
-.photo-tile:focus-visible::after {
-  opacity: 1;
-}
-
-.photo-tile:hover .event-caption,
-.photo-tile:focus-visible .event-caption {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .photo-tile:focus-visible {
@@ -2754,5 +2738,33 @@ body:has(.member-dialog[open]) {
 
   .photo-track {
     animation: none;
+  }
+}
+
+@media (max-width: 760px), (hover: none), (prefers-reduced-motion: reduce) {
+  .photo-strip {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .photo-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  .photo-track {
+    animation: none;
+    will-change: auto;
+  }
+
+  .photo-sequence[aria-hidden='true'] {
+    display: none;
+  }
+
+  .photo-tile {
+    scroll-snap-align: center;
   }
 }
