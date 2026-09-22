@@ -5,7 +5,7 @@ import { PageHero } from '@/components/page-elements';
 export const metadata: Metadata = {
   title: 'Initiatives',
   description:
-    'Explore Harvard Computer Society affiliate organizations working across artificial intelligence, social impact, product, health, startups, responsible technology, and competitive programming.',
+    'Explore Harvard Computer Society affiliates and past projects, including Datamatch and the Harvard Computer Review.',
   alternates: { canonical: '/initiatives' },
 };
 
@@ -61,6 +61,30 @@ const initiatives = [
   },
 ];
 
+const pastProjects = [
+  {
+    image: '/initiatives/datamatch-logo.svg',
+    title: 'Datamatch',
+    description:
+      'Started as an HCS side project in the 1990s and later expanded beyond Harvard.',
+    href: 'https://datamatch.me/',
+  },
+  {
+    image: '/initiatives/bip-2020.jpg',
+    title: 'Builders Incubation Program',
+    description:
+      'A 2020 HCS summer program offering mentorship, workshops, and equity-free grant opportunities for student builders.',
+    href: 'https://medium.com/hcs-builders-incubation-program/',
+  },
+  {
+    image: '/logo.png',
+    title: 'Harvard Computer Review',
+    description:
+      'HCS published the Review online alongside Computers at Harvard in the 1990s.',
+    href: 'https://www.thecrimson.com/article/1997/12/9/computer-society-elects-new-leaders-pthe/',
+  },
+];
+
 export default function InitiativesPage() {
   return (
     <>
@@ -113,6 +137,30 @@ export default function InitiativesPage() {
               <div className="affiliate-row-copy">
                 <h2>{initiative.title}</h2>
                 <p>{initiative.description}</p>
+              </div>
+            </a>
+          ))}
+          <h2 className="affiliate-archive-heading">Past projects</h2>
+          {pastProjects.map((project) => (
+            <a
+              className="affiliate-row"
+              href={project.href}
+              target="_blank"
+              rel="noreferrer"
+              key={project.title}
+            >
+              <div className="affiliate-row-logo">
+                <Image
+                  src={project.image}
+                  alt=""
+                  fill
+                  sizes="(max-width: 760px) 180px, 220px"
+                  style={{ objectFit: 'contain' }}
+                />
+              </div>
+              <div className="affiliate-row-copy">
+                <h3>{project.title}</h3>
+                <p>{project.description}</p>
               </div>
             </a>
           ))}
