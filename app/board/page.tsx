@@ -13,11 +13,17 @@ export const metadata: Metadata = {
 const leadershipTeams = [
   {
     team: 'Presidents',
-    members: ['Aarna Pal-Yadav', 'Ishaan Sinha'],
+    members: [
+      { name: 'Aarna Pal-Yadav', image: '/board/2026/aarna-pal-yadav.webp' },
+      'Ishaan Sinha',
+    ],
   },
   {
     team: 'Finance',
-    members: ['Michael Shaari', 'Nishka Patel'],
+    members: [
+      'Michael Shaari',
+      { name: 'Nishka Patel', image: '/board/2026/nishka-patel.webp' },
+    ],
   },
   {
     team: 'Cross-CS Organizations',
@@ -25,11 +31,17 @@ const leadershipTeams = [
   },
   {
     team: 'Community',
-    members: ['Athena Zhou', 'Jia Michel'],
+    members: [
+      { name: 'Athena Zhou', image: '/board/2026/athena-zhou.webp' },
+      'Jia Michel',
+    ],
   },
   {
     team: 'Academics',
-    members: ['Eric Ge', 'Bryan Lim'],
+    members: [
+      'Eric Ge',
+      { name: 'Bryan Lim', image: '/board/2026/bryan-lim.webp' },
+    ],
   },
   {
     team: 'Professional Development',
@@ -41,7 +53,7 @@ const leadershipTeams = [
   },
   {
     team: 'Tech',
-    members: ['Viraj Singh'],
+    members: [{ name: 'Viraj Singh', image: '/board/2026/viraj-singh.webp' }],
   },
 ];
 
