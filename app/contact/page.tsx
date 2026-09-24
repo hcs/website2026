@@ -13,7 +13,7 @@ const communityLinks = [
   {
     title: 'Mailing List',
     description: 'Get the latest CS opportunities in your inbox.',
-    href: 'https://forms.gle/vGP3S3pNeU28GFMn6',
+    href: 'https://docs.google.com/forms/d/e/1FAIpQLSfSLf_lkPf-GyXFd53H7hB71SW9jCVqU34V-WLhM2-F9_2u2g/viewform?usp=send_form&usp=embed_facebook',
     image: '/gmail.webp',
   },
   {
