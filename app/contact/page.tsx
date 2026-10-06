@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { PageHero } from '@/components/page-elements';
+import { instagramUrl, mailingListUrl, slackUrl } from '@/data/links';
 
 export const metadata: Metadata = {
   title: 'Get Involved',
@@ -13,19 +14,19 @@ const communityLinks = [
   {
     title: 'Mailing List',
     description: 'Get the latest CS opportunities in your inbox.',
-    href: 'https://docs.google.com/forms/d/e/1FAIpQLSfSLf_lkPf-GyXFd53H7hB71SW9jCVqU34V-WLhM2-F9_2u2g/viewform?usp=send_form&usp=embed_facebook',
+    href: mailingListUrl,
     image: '/gmail.webp',
   },
   {
     title: 'Slack',
     description: 'Chat with other students about all things CS at Harvard.',
-    href: 'https://join.slack.com/t/harvard-cs-society/shared_invite/zt-2cgtl5bpc-QCxXWwjaf1FulZhAfJSzkQ',
+    href: slackUrl,
     image: '/slack.png',
   },
   {
     title: 'Instagram',
     description: 'Stay updated on our latest events and announcements.',
-    href: 'https://www.instagram.com/harvard.computer.society/',
+    href: instagramUrl,
     image: '/instagram.webp',
   },
 ];

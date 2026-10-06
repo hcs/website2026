@@ -21,6 +21,7 @@ export function PageHero({
 
   return (
     <section
+      data-header-tone="overlay"
       className={`page-hero${description ? ' page-hero-with-description' : ''}${heroImages.length > 1 ? ' page-hero-slideshow' : ''}`}
     >
       {heroImages.map((heroImage, index) => (
@@ -45,5 +46,25 @@ export function PageHero({
         ) : null}
       </div>
     </section>
+  );
+}
+
+// Marks links that open another site; sized and aligned to the button text.
+export function ExternalArrow() {
+  return (
+    <svg
+      className="external-arrow"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M4 12 12 4M5.5 4H12v6.5"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }

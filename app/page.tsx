@@ -1,6 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
+import { HeroGlyphs } from '@/components/hero-glyphs';
+import { ExternalArrow } from '@/components/page-elements';
+import { ThesisStack } from '@/components/thesis-stack';
+import { mailingListUrl, presidentsEmail, slackUrl } from '@/data/links';
 
 const photoLetters = [
   {
@@ -29,27 +33,27 @@ const photoLetters = [
   },
 ];
 
-const explore = [
+const sponsorDiscs = [
+  { src: '/sponsors/discs/janestreet.png', name: 'Jane Street' },
+  { src: '/sponsors/discs/hrt.png', name: 'Hudson River Trading' },
+  { src: '/sponsors/discs/citadel.png', name: 'Citadel' },
+  { src: '/sponsors/discs/deshaw.png', name: 'D. E. Shaw' },
+  { src: '/sponsors/discs/axiom.png', name: 'Axiom' },
+];
+
+const groupDiscs = [
   {
-    title: 'About Us',
-    href: '/about',
-    image: '/about.jpg',
-    description:
-      'Learn about the history and mission of the Harvard Computer Society.',
+    src: '/initiatives/discs/ai.png',
+    name: 'Society for Artificial Intelligence',
   },
+  { src: '/initiatives/discs/t4sg.png', name: 'Tech for Social Good' },
+  { src: '/initiatives/discs/product-lab.png', name: 'Product Lab' },
   {
-    title: 'Initiatives',
-    href: '/initiatives',
-    image: '/initiatives.jpg',
-    description:
-      "Learn more about the initiatives we're working on in each of our sub-organizations.",
+    src: '/initiatives/discs/tghi.png',
+    name: 'Tech and Global Health Initiative',
   },
-  {
-    title: 'Get Involved',
-    href: '/contact',
-    image: '/contact.jpg',
-    description: 'Learn how to get involved with Harvard Computer Society!',
-  },
+  { src: '/initiatives/discs/startups.png', name: 'startups @ harvard' },
+  { src: '/initiatives/discs/hc3.png', name: 'Harvard Computing Contest Club' },
 ];
 
 const eventPhotos = [
@@ -180,53 +184,89 @@ function EventPhoto({
   );
 }
 
+// Single-color logo masks shown in gray, revealing `color` on hover;
+// `displayHeight` balances each mark's visual weight.
 const sponsors = [
   {
     name: 'Jane Street',
-    slug: 'jane-street',
+    color: '#0b419e',
     href: 'https://www.janestreet.com/',
-    image: '/sponsors/janestreet.png',
-    width: 1308,
-    height: 361,
+    image: '/sponsors/janestreet-mono.png',
+    width: 748,
+    height: 200,
+    displayHeight: 46,
   },
   {
     name: 'Hudson River Trading',
-    slug: 'hrt',
+    color: '#ff8200',
     href: 'https://www.hudsonrivertrading.com/',
-    image: '/sponsors/hrt.png',
-    width: 720,
-    height: 420,
+    image: '/sponsors/hrt-mono.png',
+    width: 338,
+    height: 200,
+    displayHeight: 40,
   },
   {
     name: 'Citadel',
-    slug: 'citadel',
+    color: '#1b3769',
     href: 'https://www.citadel.com/',
-    image: '/sponsors/citadel.jpg',
-    width: 1800,
-    height: 1012,
+    image: '/sponsors/citadel-mono.png',
+    width: 1438,
+    height: 178,
+    displayHeight: 26,
   },
   {
     name: 'D. E. Shaw',
-    slug: 'deshaw',
+    color: '#231f20',
     href: 'https://www.deshaw.com/',
-    image: '/sponsors/deshaw.jpg',
-    width: 1800,
-    height: 1800,
+    image: '/sponsors/deshaw-mono.png',
+    width: 883,
+    height: 200,
+    displayHeight: 38,
   },
   {
     name: 'Axiom',
-    slug: 'axiom',
+    color: '#000000',
     href: 'https://www.axiom.xyz/',
-    image: '/sponsors/axiom.jpg',
-    width: 1800,
-    height: 1800,
+    image: '/sponsors/axiom-mono.png',
+    width: 1100,
+    height: 200,
+    displayHeight: 24,
+  },
+];
+
+// Past HCS speakers, including guests at the 2005 Startup School.
+const speakers = [
+  { name: 'Steve Ballmer', detail: 'Microsoft · 1993' },
+  { name: 'Larry Ellison', detail: 'Oracle · 1997' },
+  { name: 'Paul Graham', detail: 'How to Start a Startup · 2005' },
+  { name: 'Steve Wozniak', detail: 'Apple · Startup School 2005' },
+  { name: 'Stephen Wolfram', detail: 'Wolfram Research · Startup School 2005' },
+];
+
+// Quoted verbatim from the linked essays.
+const quotes = [
+  {
+    text: 'YC grew out of a talk I gave to the Harvard Computer Society (the undergrad computer club) about how to start a startup.',
+    name: 'Paul Graham',
+    initials: 'PG',
+    role: 'Co-founder, Y Combinator',
+    source: 'The Reddits',
+    href: 'https://paulgraham.com/reddits.html',
+  },
+  {
+    text: 'We partnered with the Harvard Computer Society and on a rainy, muddy Saturday, a great group of speakers (including Steve Wozniak!) came together with hundreds of bright-eyed attendees at Harvard University.',
+    name: 'Jessica Livingston',
+    initials: 'JL',
+    role: 'Co-founder, Y Combinator',
+    source: 'Why I Love Startup School',
+    href: 'https://foundersatwork.posthaven.com/why-i-love-startup-school',
   },
 ];
 
 export default function Home() {
   return (
     <>
-      <section className="hero hero-home">
+      <section className="hero hero-home" data-header-tone="overlay">
         <svg
           className="photo-letter-filters"
           aria-hidden="true"
@@ -256,6 +296,7 @@ export default function Home() {
             </filter>
           </defs>
         </svg>
+        <HeroGlyphs />
         <div className="photo-monogram" aria-hidden="true">
           {photoLetters.map((frame, index) => (
             <div
@@ -287,6 +328,15 @@ export default function Home() {
             The original student-run organization for undergraduates in computer
             science at Harvard College
           </p>
+          <a
+            className="button button-light"
+            href={mailingListUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Join the mailing list
+            <ExternalArrow />
+          </a>
         </div>
         <a
           className="hero-scroll-cue"
@@ -303,37 +353,52 @@ export default function Home() {
         </a>
       </section>
 
-      <section className="section intro-section" id="discover">
-        <div className="container-wide centered-copy">
-          <h2>Harvard&apos;s largest computer science organization</h2>
-          <p className="lead">
-            HCS is dedicated to promoting interest in computing and information
-            technologies among members of the Harvard community.
-          </p>
-        </div>
-
-        <div className="container-wide card-grid explore-grid">
-          {explore.map((item) => (
-            <article className="image-card" key={item.title}>
-              <div className="image-card-media">
-                <Image
-                  src={item.image}
-                  alt=""
-                  fill
-                  sizes="(max-width: 760px) 100vw, 33vw"
-                  className="cover-image"
-                />
-              </div>
-              <div className="image-card-body">
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-                <Link className="text-link" href={item.href}>
-                  Learn more <span aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </article>
-          ))}
-        </div>
+      <section
+        className="section thesis-section"
+        id="discover"
+        aria-labelledby="thesis-title"
+      >
+        <h2 className="sr-only" id="thesis-title">
+          What HCS does
+        </h2>
+        <p className="container-wide thesis">
+          Since 1983, the Harvard Computer{' '}
+          <span className="thesis-nowrap">
+            Society
+            <span className="thesis-chip">
+              <Link
+                className="thesis-stack"
+                href="/about"
+                style={{ '--count': 1 } as CSSProperties}
+                aria-label="About HCS"
+              >
+                <span className="thesis-window" aria-hidden="true">
+                  <span className="thesis-belt">
+                    <span
+                      className="thesis-disc"
+                      style={{ '--slot': 0, '--page': 0 } as CSSProperties}
+                    >
+                      <Image src="/remy-disc.png" alt="" fill sizes="96px" />
+                    </span>
+                  </span>
+                </span>
+              </Link>
+            </span>
+          </span>{' '}
+          has brought together Harvard students curious about computing. We host
+          workshops, talks, and socials backed by our{' '}
+          <span className="thesis-nowrap">
+            sponsors
+            <ThesisStack items={sponsorDiscs} label="Our sponsors" />,
+          </span>{' '}
+          and we&apos;re home to seven{' '}
+          <span className="thesis-nowrap">
+            <Link className="thesis-link" href="/initiatives">
+              student groups
+            </Link>
+            <ThesisStack items={groupDiscs} label="HCS student groups" />.
+          </span>
+        </p>
       </section>
 
       <section className="section section-tint">
@@ -370,46 +435,110 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="center-action">
-          <Link className="button" href="/contact">
-            Get involved
-          </Link>
-        </div>
       </section>
 
       <section className="section sponsors-section">
         <div className="container-wide centered-copy">
-          <h2>Our sponsors</h2>
-          <p className="lead">
-            The work that the Harvard Computer Society does would not be
-            possible without the support of our generous sponsors. If you are
-            interested in sponsoring HCS,{' '}
-            <a className="inline-link" href="mailto:presidents@hcs.harvard.edu">
-              please reach out
-            </a>
-            !
-          </p>
+          <h2>Supported by our sponsors</h2>
         </div>
         <div className="container-wide sponsor-grid">
           {sponsors.map((sponsor) => (
             <a
-              className={`sponsor-card sponsor-card-${sponsor.slug}`}
+              className="sponsor-card"
               href={sponsor.href}
               target="_blank"
               rel="noreferrer"
               key={sponsor.name}
               aria-label={`Visit ${sponsor.name}`}
             >
-              <Image
-                src={sponsor.image}
-                alt={`${sponsor.name} logo`}
-                width={sponsor.width}
-                height={sponsor.height}
-                sizes="(max-width: 760px) 50vw, 20vw"
-                className="sponsor-logo"
+              <span
+                className="sponsor-mark"
+                aria-hidden="true"
+                style={
+                  {
+                    '--logo-mask': `url('${sponsor.image}')`,
+                    '--logo-color': sponsor.color,
+                    '--logo-height': `${sponsor.displayHeight}px`,
+                    aspectRatio: `${sponsor.width} / ${sponsor.height}`,
+                  } as CSSProperties
+                }
               />
             </a>
           ))}
+        </div>
+        <p className="container-wide sponsor-note">
+          Interested in sponsoring HCS?{' '}
+          <a className="inline-link" href={`mailto:${presidentsEmail}`}>
+            Get in touch
+          </a>
+        </p>
+      </section>
+
+      <section className="dark-band" data-header-tone="dark">
+        <div className="container-wide dark-band-block">
+          <h2>Past speakers and guests</h2>
+          <ul className="speaker-grid">
+            {speakers.map((speaker) => (
+              <li className="speaker-card" key={speaker.name}>
+                <strong>{speaker.name}</strong>
+                <span>{speaker.detail}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="container-wide dark-band-block">
+          <h2>In their words</h2>
+          <div className="quote-grid">
+            {quotes.map((quote) => (
+              <figure className="quote-card" key={quote.name}>
+                <blockquote>
+                  <p>“{quote.text}”</p>
+                </blockquote>
+                <figcaption>
+                  <span className="quote-avatar" aria-hidden="true">
+                    {quote.initials}
+                  </span>
+                  <span>
+                    <cite>{quote.name}</cite>
+                    <span>
+                      {quote.role} ·{' '}
+                      <a href={quote.href} target="_blank" rel="noreferrer">
+                        {quote.source}
+                      </a>
+                    </span>
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+
+        <div className="container-wide join-block">
+          <h2>Stay in the loop</h2>
+          <p>
+            Get the latest CS events and opportunities at Harvard in your inbox.
+          </p>
+          <div className="join-actions">
+            <a
+              className="button button-light"
+              href={mailingListUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Join the mailing list
+              <ExternalArrow />
+            </a>
+            <a
+              className="button button-outline-light"
+              href={slackUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Join our Slack
+              <ExternalArrow />
+            </a>
+          </div>
         </div>
       </section>
     </>

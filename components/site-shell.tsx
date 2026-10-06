@@ -1,6 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { MobileNav } from '@/components/mobile-nav';
+import { SiteHeaderFrame } from '@/components/site-header-frame';
+import {
+  instagramUrl,
+  mailingListUrl,
+  presidentsEmail,
+  slackUrl,
+} from '@/data/links';
 
 const navItems = [
   { href: '/about', label: 'About' },
@@ -27,6 +34,29 @@ function InstagramIcon() {
   );
 }
 
+function MailIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect
+        x="2.5"
+        y="5"
+        width="19"
+        height="14"
+        rx="2.5"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+      <path
+        d="m3.5 7 8.5 6 8.5-6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function SlackIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -44,7 +74,7 @@ function SlackIcon() {
 
 export function SiteHeader() {
   return (
-    <header className="site-header">
+    <SiteHeaderFrame>
       <div className="container-wide nav-shell">
         <Link
           className="brand"
@@ -56,20 +86,24 @@ export function SiteHeader() {
         </Link>
         <nav className="desktop-nav" aria-label="Primary navigation">
           {navItems.map((item) => (
-            <Link href={item.href} key={item.href}>
+            <Link
+              className={item.href === '/contact' ? 'nav-cta' : undefined}
+              href={item.href}
+              key={item.href}
+            >
               {item.label}
             </Link>
           ))}
         </nav>
         <MobileNav items={navItems} />
       </div>
-    </header>
+    </SiteHeaderFrame>
   );
 }
 
 export function SiteFooter() {
   return (
-    <footer className="site-footer">
+    <footer className="site-footer" data-header-tone="dark">
       <div className="container-wide footer-main">
         <Link
           className="footer-wordmark"
@@ -91,7 +125,17 @@ export function SiteFooter() {
           <nav className="footer-socials" aria-label="HCS social links">
             <a
               className="footer-social-link"
-              href="https://www.instagram.com/harvard.computer.society/"
+              href={mailingListUrl}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Join the HCS mailing list"
+              title="Mailing list"
+            >
+              <MailIcon />
+            </a>
+            <a
+              className="footer-social-link"
+              href={instagramUrl}
               target="_blank"
               rel="noreferrer"
               aria-label="HCS on Instagram"
@@ -101,7 +145,7 @@ export function SiteFooter() {
             </a>
             <a
               className="footer-social-link"
-              href="https://join.slack.com/t/harvard-cs-society/shared_invite/zt-2cgtl5bpc-QCxXWwjaf1FulZhAfJSzkQ"
+              href={slackUrl}
               target="_blank"
               rel="noreferrer"
               aria-label="Join the HCS Slack"
@@ -115,9 +159,7 @@ export function SiteFooter() {
 
       <div className="container-wide footer-bottom">
         <p>© 2026 Harvard Computer Society</p>
-        <a href="mailto:presidents@hcs.harvard.edu">
-          presidents@hcs.harvard.edu
-        </a>
+        <a href={`mailto:${presidentsEmail}`}>{presidentsEmail}</a>
         <a href="#main-content">
           Back to top <span aria-hidden="true">↑</span>
         </a>
